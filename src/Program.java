@@ -14,7 +14,7 @@ public class Program {
 
         Scanner sc = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
-        List<ChessPiece> captured  = new ArrayList<>();
+        List<ChessPiece> captured = new ArrayList<>();
 
         while (!chessMatch.getCheckMate()) {
             try {
@@ -34,19 +34,22 @@ public class Program {
                 ChessPosition target = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
-                if(capturedPiece != null){
+                if (capturedPiece != null) {
                     captured.add(capturedPiece);
                 }
-                if(chessMatch.getPromoted() != null){
+                if (chessMatch.getPromoted() != null) {
                     System.out.print("Digite uma peça para promoção (B/N/R/Q)");
-                    String type = sc.nextLine();
+                    String type = sc.nextLine().toUpperCase();
+                    while (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+                        System.out.print("Peça escolhida inválida, Digite uma peça para promoção (B/N/R/Q)");
+                        type = sc.nextLine().toUpperCase();
+                    }
                     chessMatch.replacePromotedPiece(type);
                 }
             } catch (ChessException e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();
             }
